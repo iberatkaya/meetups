@@ -292,7 +292,7 @@ class CreatePage extends React.Component {
                             const value = this.refs.form.getValue();
                             if (value != null) {
                                 let name = value.name;
-                                let res = await fetch('http://localhost:3001/', {
+                                let res = await fetch('/api', {
                                     headers: {
                                         'Accept': 'application/json',
                                         'Content-Type': 'application/json'

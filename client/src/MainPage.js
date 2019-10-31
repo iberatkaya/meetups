@@ -75,7 +75,7 @@ class MainPage extends React.Component {
     }
 
     fetchPeople = async (firstfetch = true) => {
-        let res = await fetch('http://localhost:3001/' + this.state.key, {
+        let res = await fetch('/api/' + this.state.key, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -362,7 +362,7 @@ class MainPage extends React.Component {
                             const value = this.refs.form.getValue();
                             if (value.name != null && value.name != undefined && value.name != '') {
                                 let name = value.name;
-                                let res = await fetch('http://localhost:3001/' + this.state.key, {
+                                let res = await fetch('/api/' + this.state.key, {
                                     headers: {
                                         'Accept': 'application/json',
                                         'Content-Type': 'application/json'
