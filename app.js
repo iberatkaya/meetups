@@ -40,7 +40,7 @@ app.use(cookieParser());
 
   // Serve any static files
   //app.use(express.static(path.join(__dirname, 'client/build')));
-  app.use('/static', express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static(path.join(__dirname, 'client/build')));
   app.post('/api', function (req, res, next) {
     var randomstr = randomstring.generate(24);
     var name = req.body.name;

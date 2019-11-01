@@ -2,7 +2,6 @@
   "name": "meetup",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ibkmeetup.herokuapp.com/",
   "dependencies": {
     "@material-ui/core": "^4.5.1",
     "bootstrap": "^4.3.1",
