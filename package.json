@@ -6,9 +6,6 @@
     "start": "node ./bin/www",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
-  "engine": {
-    "node": "10.16.0"
-  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "concurrently": "^5.0.0",
