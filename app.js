@@ -38,10 +38,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-if (process.env.NODE_ENV === 'production') {
   // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build')));
-
+  //app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use('/static', express.static(path.join(__dirname, 'client/build')));
   app.post('/api', function (req, res, next) {
     var randomstr = randomstring.generate(24);
     var name = req.body.name;
@@ -77,6 +76,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
   
-}
+
 
 module.exports = app;
