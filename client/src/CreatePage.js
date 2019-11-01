@@ -303,9 +303,9 @@ class CreatePage extends React.Component {
                                 let resjson = await res.json();
                                 console.log(resjson);
                                 this.setState({response: resjson, key: resjson.key}, () => {
+                                    ReactCopy('https://ibkmeetup.herokuapp.com/' + resjson.key)
+                                    alert('Copied to clipboard');
                                     this.props.history.push('/' + resjson.key);
-                                    ReactCopy('https://iberatkaya.github.io/meetup/' /*'http://localhost:3000/'*/ + resjson.key)
-                                    toast('Copied to clipboard');
                                 })
                             }
                             else{
