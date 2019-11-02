@@ -138,44 +138,84 @@ class MainPage extends React.Component {
                     dateCardClass = "Datecard Bottomborder"
                 return (
                     <Column>
-                        <Row className={dateCardClass}>
-                            <Row className="Datecardrow">
-                                <p className="Datetext">Start Date:</p>
-                                <div>
-                                    <DateTime
-                                        value={item.startDate}
-                                        timeFormat="HH:mm"
-                                        dateFormat="MMMM DD, YYYY"
-                                        onChange={(date) => {
-                                            if (type === 'person') {
-                                                alert('Cannot be edited');
-                                            }
-                                            else
-                                                this.timeChange(date.toDate(), index, 'start');
-                                        }}
-                                    />
-                                </div>
-                            </Row>
-                            <Row className="Datecardrow">
-                                <p className="Datetext">End Date: </p>
-                                <div>
-                                    <DateTime
+                        {
+                            isMobile
+                                ?
+                                <Column className={dateCardClass}>
+                                    <Column className="Datecardcol">
+                                        <p className="Datetext">Start Date</p>
+                                        <div style = {{marginTop: 4}}>
+                                            <DateTime
+                                                value={item.startDate}
+                                                timeFormat="HH:mm"
+                                                dateFormat="MMMM DD, YYYY"
+                                                onChange={(date) => {
+                                                    if (type === 'person') {
+                                                        alert('Cannot be edited');
+                                                    }
+                                                    else
+                                                        this.timeChange(date.toDate(), index, 'start');
+                                                }}
+                                            />
+                                        </div>
+                                    </Column>
+                                    <Column className="Datecardcol">
+                                        <p className="Datetext">End Date</p>
+                                        <div style = {{marginTop: 4}}>
+                                            <DateTime
+                                                value={item.endDate}
+                                                timeFormat="HH:mm"
+                                                dateFormat="MMMM DD, YYYY"
+                                                onChange={(date) => {
+                                                    if (type === 'person') {
+                                                        alert('Cannot be edited');
+                                                    }
+                                                    else
+                                                        this.timeChange(date.toDate(), index, 'end');
+                                                }}
+                                            />
+                                        </div>
+                                    </Column>
+                                </Column>
+                                :
+                                <Row className={dateCardClass}>
+                                    <Row className="Datecardrow">
+                                        <p className="Datetext">Start Date:</p>
+                                        <div>
+                                            <DateTime
+                                                value={item.startDate}
+                                                timeFormat="HH:mm"
+                                                dateFormat="MMMM DD, YYYY"
+                                                onChange={(date) => {
+                                                    if (type === 'person') {
+                                                        alert('Cannot be edited');
+                                                    }
+                                                    else
+                                                        this.timeChange(date.toDate(), index, 'start');
+                                                }}
+                                            />
+                                        </div>
+                                    </Row>
+                                    <Row className="Datecardrow">
+                                        <p className="Datetext">End Date: </p>
+                                        <div>
+                                            <DateTime
+                                                value={item.endDate}
+                                                timeFormat="HH:mm"
+                                                dateFormat="MMMM DD, YYYY"
+                                                onChange={(date) => {
+                                                    if (type === 'person') {
+                                                        alert('Cannot be edited');
+                                                    }
+                                                    else
+                                                        this.timeChange(date.toDate(), index, 'end');
+                                                }}
+                                            />
+                                        </div>
+                                    </Row>
+                                </Row>
 
-                                        value={item.endDate}
-                                        timeFormat="HH:mm"
-                                        dateFormat="MMMM DD, YYYY"
-                                        onChange={(date) => {
-                                            if (type === 'person') {
-                                                alert('Cannot be edited');
-                                            }
-                                            else
-                                                this.timeChange(date.toDate(), index, 'end');
-                                        }}
-                                    />
-                                </div>
-                            </Row>
-
-                        </Row>
+                        }
                     </Column>
                 )
             })
@@ -410,7 +450,7 @@ class MainPage extends React.Component {
     joinRoom = () => {
         return (
             <div
-                style={{ textAlign: 'center' }}
+                className="Card" style={{ paddingTop: 16, marginTop: 6, backgroundColor: 'rgb(240, 240, 255)', textAlign: 'center' }}
             >
                 <Button
                     className="Joinroombutton"

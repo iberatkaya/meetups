@@ -93,30 +93,60 @@ class CreatePage extends React.Component {
                     dateCardClass = "Datecard Bottomborder"
                 return (
                     <Column>
-                        <Row className={dateCardClass}>
-                            <Row className="Datecardrow">
-                                <p className="Datetext">Start Date:</p>
-                                <div>
-                                    <DateTime
-                                        value={item.startDate}
-                                        timeFormat="HH:mm"
-                                        dateFormat="MMMM DD, YYYY"
-                                        onChange={(date) => { this.timeChange(date.toDate(), index, 'start'); }}
-                                    />
-                                </div>
-                            </Row>
-                            <Row className="Datecardrow">
-                                <p className="Datetext">End Date: </p>
-                                <div>
-                                    <DateTime
-                                        value={item.endDate}
-                                        timeFormat="HH:mm"
-                                        dateFormat="MMMM DD, YYYY"
-                                        onChange={(date) => { this.timeChange(date.toDate(), index, 'end'); }}
-                                    />
-                                </div>
-                            </Row>
-                        </Row>
+                        {
+                            isMobile
+                                ?
+                                <Column className={dateCardClass}>
+                                    <Column className="Datecardcol">
+                                        <p className="Datetext">Start Date</p>
+                                        <div style = {{marginTop: 4}}>
+                                            <DateTime
+                                                value={item.startDate}
+                                                timeFormat="HH:mm"
+                                                dateFormat="MMMM DD, YYYY"
+                                                onChange={(date) => { this.timeChange(date.toDate(), index, 'start'); }}
+                                            />
+                                        </div>
+                                    </Column>
+                                    <Column className="Datecardcol">
+                                        <p className="Datetext">End Date</p>
+                                        <div style = {{marginTop: 4}}>
+                                            <DateTime
+                                                value={item.endDate}
+                                                timeFormat="HH:mm"
+                                                dateFormat="MMMM DD, YYYY"
+                                                onChange={(date) => { this.timeChange(date.toDate(), index, 'end'); }}
+                                            />
+                                        </div>
+                                    </Column>
+                                </Column>
+
+                                :
+                                <Row className={dateCardClass}>
+                                    <Row className="Datecardrow">
+                                        <p className="Datetext">Start Date:</p>
+                                        <div>
+                                            <DateTime
+                                                value={item.startDate}
+                                                timeFormat="HH:mm"
+                                                dateFormat="MMMM DD, YYYY"
+                                                onChange={(date) => { this.timeChange(date.toDate(), index, 'start'); }}
+                                            />
+                                        </div>
+                                    </Row>
+                                    <Row className="Datecardrow">
+                                        <p className="Datetext">End Date: </p>
+                                        <div>
+                                            <DateTime
+                                                value={item.endDate}
+                                                timeFormat="HH:mm"
+                                                dateFormat="MMMM DD, YYYY"
+                                                onChange={(date) => { this.timeChange(date.toDate(), index, 'end'); }}
+                                            />
+                                        </div>
+                                    </Row>
+                                </Row>
+                        }
                     </Column>
                 )
             })
@@ -147,7 +177,7 @@ class CreatePage extends React.Component {
                     type={FormSchema} />
                 <div className="form-group">
                     <Button
-                        style = {{marginLeft: 'auto', marginRight: 'auto'}}
+                        style={{ marginLeft: 'auto', marginRight: 'auto' }}
                         onClick={async () => {
                             const value = this.refs.form.getValue();
                             if (value != null) {

@@ -2,6 +2,7 @@
 
 body {
     background-color: #f9f9ff;
+    line-height: 1.2;
 }
 
 p {
@@ -42,7 +43,7 @@ p {
 .Username {
     padding-top: 4px;
     text-align: center; 
-    font-size: 2rem; 
+    font-size: 1.9rem; 
 }
 
 .Datecard {
@@ -61,6 +62,11 @@ p {
     justify-content: center;
     align-items: center;
     margin-bottom: 1vh;
+}
+
+.Datecardcol {
+    text-align: center;
+    margin-bottom: 1.5vh;
 }
 
 .Datetext {
