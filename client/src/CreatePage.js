@@ -198,7 +198,7 @@ class CreatePage extends React.Component {
                                     this.props.history.push('/' + resjson.key);
                                 })
                             }
-                        }} type="submit">Submit</Button>
+                        }} type="submit">Create Room</Button>
                 </div>
             </Container>
         )

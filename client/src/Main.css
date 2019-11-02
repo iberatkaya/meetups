@@ -3,6 +3,7 @@
 body {
     background-color: #f9f9ff;
     line-height: 1.2;
+    touch-action: manipulation;
 }
 
 p {
