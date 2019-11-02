@@ -1,7 +1,6 @@
 import React from 'react';
 import DateTime from 'react-datetime';
 import Column from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { MdAdd, MdRemove } from 'react-icons/md';
@@ -13,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Moment from 'moment';
 import t from 'tcomb-form'
 import { extendMoment } from 'moment-range';
+import './Main.css';
 import { isMobile } from 'react-device-detect';
 
 const moment = extendMoment(Moment);
@@ -29,39 +29,24 @@ class MainPage extends React.Component {
         this.state = {
             data: {
                 persons: [
-                    {
-                        dates: [
-                            {
-                                startDate: new Date(),
-                                endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + 60)
-                            }
-                        ],
-                        id: 0
-                    }
-                    /*{
-                      dates: [
+                ],
+                user:
+                {
+                    dates: [
                         {
-                          startDate: new Date(),
-                          endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + 60)
+                            startDate: new Date(),
+                            endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + 60)
                         }
-                      ],
-                      id: 1
-                    },
-                    {
-                      dates: [
-                        {
-                          startDate: new Date(),
-                          endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + 60)
-                        }
-                      ],
-                      id: 2
-                    }*/
-                ]
+                    ],
+                    id: 0
+                },
             },
             key: this.props.match.params.key,
             intersections: [],
             value: '',
-            error: false
+            error: false,
+            joinRoom: false,
+            sentData: false
         }
         console.log(this.props.match.params.key);
     }
@@ -74,7 +59,7 @@ class MainPage extends React.Component {
         )
     }
 
-    fetchPeople = async (firstfetch = true) => {
+    fetchPeople = async () => {
         let res = await fetch('/api/' + this.state.key, {
             headers: {
                 'Accept': 'application/json',
@@ -83,14 +68,10 @@ class MainPage extends React.Component {
             method: 'GET',
         });
         let resjson = await res.json();
-        console.log(resjson)
-        if(resjson.length === 0){
-            this.setState({error: true})
+        if (resjson.length === 0) {
+            this.setState({ error: true })
         }
-        let persons = this.state.data.persons;
-        if(!firstfetch)
-            persons = [persons[0]];
-        console.log(persons);
+        let persons = [];
         for (let i = 0; i < resjson.length; i++) {
             let dates = JSON.parse(resjson[i].dates);
             let newdates = []
@@ -99,19 +80,21 @@ class MainPage extends React.Component {
             }
             persons.push({ dates: newdates, id: i, name: resjson[i].name });
         }
-        let data = { persons: persons };
+        let data = { ...this.state.data };
+        data.persons = persons;
         this.setState({ data: data }, () => {
             this.calculateAvailableTime();
         });
     }
 
     async componentDidMount() {
-        await this.fetchPeople();
+        await this.fetchPeople(true);
     }
 
-    timeChange = (date, index, personIndex, type) => {
+    timeChange = (date, index, type) => {
         let data = this.state.data;
-        let objarr = data.persons[0].dates;
+        let objarr = data.user.dates;
+        console.log(objarr);
         if (type === 'end') {
             if (objarr[index].startDate.getTime() >= date.getTime()) {
                 alert('End Date cannot be smaller than Start Date');
@@ -137,54 +120,62 @@ class MainPage extends React.Component {
             }
             objarr[index].endDate = date;
         }
-        data.persons[personIndex].dates = objarr;
+        data.user.dates = objarr;
+        console.log(data.user.dates);
         this.setState({ data: data }, () => {
             this.calculateAvailableTime();
         });
     }
 
 
-    dateLists = (items, personIndex, type) => {
+    dateLists = (items, type) => {
+        let dateCardClass = "Datecard"
         return (
             items.map((item, index) => {
+                if (index === items.length - 1)
+                    dateCardClass = "Datecard"
+                else
+                    dateCardClass = "Datecard Bottomborder"
                 return (
                     <Column>
-                        <Row style={index !== 0 ? { marginBottom: 4 } : { marginBottom: 4 }} className="justify-content-center">
-                            <p style={{ fontSize: 14 }}>Start Date:</p>
-                            <div>
-                                <DateTime
-                                    value={item.startDate}
-                                    timeFormat="HH:mm"
-                                    dateFormat="MMMM DD, YYYY"
-                                    onChange={(date) => {
-                                        if (type === 'person') {
-                                            alert('Cannot be edited');
-                                        }
-                                        else
-                                            this.timeChange(date.toDate(), index, personIndex, 'start');
-                                    }}
-                                />
-                            </div>
-                        </Row>
-                        <Row className="justify-content-center">
-                            <p style={{ fontSize: 14 }}>End Date: </p>
-                            <div style={{ marginLeft: '0.5vw' }}>
-                                <DateTime
+                        <Row className={dateCardClass}>
+                            <Row className="Datecardrow">
+                                <p className="Datetext">Start Date:</p>
+                                <div>
+                                    <DateTime
+                                        value={item.startDate}
+                                        timeFormat="HH:mm"
+                                        dateFormat="MMMM DD, YYYY"
+                                        onChange={(date) => {
+                                            if (type === 'person') {
+                                                alert('Cannot be edited');
+                                            }
+                                            else
+                                                this.timeChange(date.toDate(), index, 'start');
+                                        }}
+                                    />
+                                </div>
+                            </Row>
+                            <Row className="Datecardrow">
+                                <p className="Datetext">End Date: </p>
+                                <div>
+                                    <DateTime
 
-                                    value={item.endDate}
-                                    timeFormat="HH:mm"
-                                    dateFormat="MMMM DD, YYYY"
-                                    onChange={(date) => {
-                                        if (type === 'person') {
-                                            alert('Cannot be edited');
-                                        }
-                                        else
-                                            this.timeChange(date.toDate(), index, personIndex, 'end');
-                                    }}
-                                />
-                            </div>
-                        </Row>
+                                        value={item.endDate}
+                                        timeFormat="HH:mm"
+                                        dateFormat="MMMM DD, YYYY"
+                                        onChange={(date) => {
+                                            if (type === 'person') {
+                                                alert('Cannot be edited');
+                                            }
+                                            else
+                                                this.timeChange(date.toDate(), index, 'end');
+                                        }}
+                                    />
+                                </div>
+                            </Row>
 
+                        </Row>
                     </Column>
                 )
             })
@@ -193,33 +184,34 @@ class MainPage extends React.Component {
 
 
     renderPeople = () => {
-        let items = this.state.data.persons.slice(1, this.state.data.persons.length);
+        let items = this.state.data.persons;
         return items.map((item, index) => {
             return (
-                <Column className="justify-content-center">
-                    <p style={{ textAlign: 'center', fontSize: 28 }}>Available dates! ({item.name})</p>
-                    {this.dateLists(item.dates, index, 'person')}
+                <Column className="Card">
+                    <p className="Username" >{item.name}</p>
+                    <p className="Availabledate">Available dates:</p>
+                    {this.dateLists(item.dates, 'person')}
                 </Column>
             )
         })
     }
 
     renderUser = () => {
-        let items = [this.state.data.persons[0]];
+        let items = [this.state.data.user];
         return items.map((item, index) => {
             return (
-                <Column className="justify-content-center">
-                    <p style={{ textAlign: 'center', fontSize: 28 }}>Select available dates! (User)</p>
-                    {this.dateLists(item.dates, index, 'user')}
+                <Column className="Card" style={{ paddingTop: 16, marginTop: 6, backgroundColor: 'rgb(240, 240, 255)' }}>
+                    <p className="Availabledate">Select available dates!</p>
+                    {this.dateLists(item.dates, 'user')}
                     <Row className="justify-content-center">
-                        {this.state.data.persons[index].dates.length !== 1 ?
+                        {this.state.data.user.dates.length !== 1 ?
                             <MdRemove
                                 style={{ color: '#222', fontSize: 24 }}
                                 onClick={() => {
                                     let data = this.state.data;
-                                    let dates = data.persons[index].dates;
+                                    let dates = data.user.dates;
                                     dates.pop();
-                                    data.persons[index].dates = dates;
+                                    data.user.dates = dates;
                                     this.setState({ data: data },
                                         () => { this.calculateAvailableTime() });
                                 }} /> : <div></div>}
@@ -250,12 +242,13 @@ class MainPage extends React.Component {
                                     startDate: new Date(date + 120000),
                                     endDate: new Date(date + 3720000)
                                 });
-                                data.persons[index].dates = dates;
+                                data.user.dates = dates;
                                 this.setState({ data: data }, () => {
                                     this.calculateAvailableTime();
                                 });
                             }} />
                     </Row>
+                    {this.form()}
                 </Column>
             )
         });
@@ -309,6 +302,9 @@ class MainPage extends React.Component {
           return ({start: moment(new Date(a.start)).format('HH:mm'), end: moment(new Date(a.end)).format('HH:mm'), occurance: a.occurance})
         }));*/
         let normalizedranges = this.normalize(ranges, min, max);
+        /*console.log([normalizedranges[normalizedranges.length-1]].map((a) => {
+            return ({start: moment(new Date(a.start)).format('HH:mm'), end: moment(new Date(a.end)).format('HH:mm'), occurance: a.occurance})
+          }));*/
         this.setState({ intersections: normalizedranges });
     }
 
@@ -333,6 +329,8 @@ class MainPage extends React.Component {
             if (newel.occurance > 1 /*&& (max - min) / 10 < (newel.end - newel.start)*/)
                 newarr.push(newel);
         }
+        if (newarr.length > 0)
+            newarr[newarr.length - 1].end += 60000;
         return newarr;
     }
 
@@ -342,25 +340,43 @@ class MainPage extends React.Component {
             //    console.log(new Date(item.start));
             //    console.log(new Date(item.end));
             return (
-                <Column className="justify-content-center">
-                    <p>People: {item.occurance}, Intersection: {moment(new Date(item.start)).format('MMMM DD, YYYY HH:mm')} - {moment(new Date(item.end)).format('MMMM DD, YYYY HH:mm')}</p>
+                <Column>
+                    <p className="Intersectiontext"><b>{item.occurance}</b> people are available at {moment(new Date(item.start)).format('MMMM DD, YYYY HH:mm')} - {moment(new Date(item.end)).format('MMMM DD, YYYY HH:mm')}</p>
                 </Column>
             )
         });
     }
 
+    options = {
+        fields: {
+            name: {
+                label: ' ',
+                error: 'Please enter a name.',
+                attrs: {
+                    placeholder: 'Name',
+                }
+            }
+        }
+    }
+
     form = () => {
         return (
-            <Container style={{ marginTop: 12 }}>
+            <div style={isMobile ? { width: '98%' } : { width: '50%' }} className="Form" >
                 <Form
                     value={this.state.value}
                     onChange={(val) => { this.setState({ value: val }); }}
                     ref="form"
+                    options={this.options}
                     type={FormSchema} />
                 <div className="form-group">
-                        <Button onClick={async () => {
+                    <Button
+                        style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                        onClick={async () => {
                             const value = this.refs.form.getValue();
-                            if (value.name != null && value.name != undefined && value.name != '') {
+                            if (value === null) {
+                                return;
+                            }
+                            if (value.name !== null && value.name !== undefined && value.name !== '') {
                                 let name = value.name;
                                 let res = await fetch('/api/' + this.state.key, {
                                     headers: {
@@ -368,24 +384,44 @@ class MainPage extends React.Component {
                                         'Content-Type': 'application/json'
                                     },
                                     method: 'POST',
-                                    body: JSON.stringify({ name: name, dates: this.state.data.persons[0].dates })
+                                    body: JSON.stringify({ name: name, dates: this.state.data.user.dates })
                                 });
                                 let resjson = await res.json();
-                                console.log(resjson);
-                                if (resjson != null) {
+                                if (resjson !== null) {
                                     if (resjson.success === '1') {
                                         ReactCopy('https://ibkmeetup.herokuapp.com/' /*'http://localhost:3000/'*/ + this.state.key);
-                                        this.setState({ sent: true }, async () => {
+                                        let data = { ...this.state.data };
+                                        data.people = [];
+                                        this.setState({ sent: true, data: data }, async () => {
                                             toast('Copied to clipboard');
+                                            console.log('people at send form');
+                                            console.log(this.state.data.people)
                                             await this.fetchPeople(false);
                                         });
                                     }
                                 }
                             }
-                        }} type="submit">Save</Button>
+                        }} type="submit">Join Room</Button>
                 </div>
-            </Container>
+            </div>
         )
+    }
+
+    joinRoom = () => {
+        return (
+            <div
+                style={{ textAlign: 'center' }}
+            >
+                <Button
+                    className="Joinroombutton"
+                    onClick={() => {
+                        this.setState({ joinRoom: true })
+                    }}
+                >
+                    Join Room
+            </Button>
+            </div>
+        );
     }
 
     render() {
@@ -395,23 +431,50 @@ class MainPage extends React.Component {
                     this.state.error ?
                         this.errorScreen()
                         :
-                        <Container className="justify-content-center" style={{ marginTop: 24 }}>
-                            {this.renderPeople()}
-                            {
-                                this.state.sent ?
-                                    <div></div>
-                                    :
-                                    this.renderUser()
-                            }
-                            {this.intersectionsList()}
-                            {
-                                this.state.sent ?
-                                    <div></div>
-                                    :
-                                    this.form()
-                            }
-                            <ToastContainer position = "bottom-right" />
-                        </Container>
+                        <div>
+                            <div className="justify-content-center" style={{ marginTop: 12 }}>
+                                <div className="Peopleinroom">
+                                    <p className="Peopleinroomtext">People in the room: {this.state.data.persons.length}</p>
+                                </div>
+                                <Column>
+                                    {this.renderPeople()}
+                                    {
+                                        this.state.intersections.length > 0
+                                            ?
+                                            <div className="Intersectionlist">
+                                                <p className="Intersectionhelptext">Intersections:</p>
+                                                {this.intersectionsList()}
+                                            </div>
+                                            :
+                                            <div></div>
+                                    }
+                                    {
+                                        this.state.sent ?
+                                            <div></div>
+                                            :
+                                            <div>
+                                                {!this.state.joinRoom ?
+                                                    <div></div>
+                                                    :
+                                                    this.renderUser()
+                                                }
+                                            </div>
+                                    }
+                                    {
+                                        this.state.sent ?
+                                            <div></div>
+                                            : <div>
+                                                {!this.state.joinRoom ?
+                                                    this.joinRoom()
+                                                    :
+                                                    <div></div>
+                                                }
+                                            </div>
+                                    }
+                                    <ToastContainer position="bottom-right" />
+                                </Column>
+                            </div>
+                        </div>
                 }
             </div>
         );

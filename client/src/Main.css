@@ -1,0 +1,102 @@
+
+
+body {
+    background-color: #fdfdfd;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.Peopleinroom {
+    background-color: #eee;
+    border-radius: 12px;
+    align-items: center;
+    width: 16rem;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.Peopleinroomtext {
+    font-size: 1.2rem;
+    text-align: center;    
+}
+
+.Availabledate {
+    margin-bottom: 4px;
+    text-align: left;
+    font-size: 1.1rem; 
+}
+
+.Card {
+    background-color: rgb(255, 230, 230); 
+    border-radius: 28px; 
+    padding-bottom: 12px; 
+    margin-bottom: 6px;
+}
+
+.Username {
+    padding-top: 4px;
+    text-align: center; 
+    font-size: 2rem; 
+}
+
+.Datecard {
+    padding-left: 3vw;
+    padding-bottom: 8px;
+    padding-top: 6px;
+    justify-content: space-evenly;
+}
+
+.Bottomborder{
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+
+.Datecardrow {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+.Datetext {
+    font-size: 1rem; 
+    margin-right: 6px;
+}
+
+.Form {
+    margin: 0 auto;
+    text-align: center
+}
+
+.Intersectionlist {
+    background-color: rgb(230, 255, 230);
+    border-radius: 24px;
+    padding-bottom: 18px;
+    padding-top: 12px;
+    padding-right: 14px;
+    padding-left: 14px;
+}
+
+.Intersectiontext {
+    display: list-item;
+    margin-bottom: 2px;
+    text-align: left;
+    font-size: 1rem; 
+}
+
+.Intersectionhelptext {
+    margin-bottom: 4px;
+    text-align: left;
+    font-size: 1.1rem; 
+}
+
+
+.Joinroombutton {
+    margin-bottom: 16px;
+    margin-top: 12px;
+}
