@@ -101,6 +101,7 @@ class CreatePage extends React.Component {
                                         <p className="Datetext">Start Date</p>
                                         <div style = {{marginTop: 4}}>
                                             <DateTime
+                                                inputProps={{readOnly: true}}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -112,6 +113,7 @@ class CreatePage extends React.Component {
                                         <p className="Datetext">End Date</p>
                                         <div style = {{marginTop: 4}}>
                                             <DateTime
+                                                inputProps={{readOnly: true}}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -127,6 +129,7 @@ class CreatePage extends React.Component {
                                         <p className="Datetext">Start Date:</p>
                                         <div>
                                             <DateTime
+                                                inputProps={{readOnly: true}}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -138,6 +141,7 @@ class CreatePage extends React.Component {
                                         <p className="Datetext">End Date: </p>
                                         <div>
                                             <DateTime
+                                                inputProps={{readOnly: true}}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
