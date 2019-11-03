@@ -165,6 +165,7 @@ class CreatePage extends React.Component {
                 error: 'Please enter a name.',
                 attrs: {
                     placeholder: 'Name',
+                    autoComplete: 'off'
                 }
             }
         }
