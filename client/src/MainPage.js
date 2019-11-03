@@ -3,6 +3,8 @@ import DateTime from 'react-datetime';
 import Column from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import { MdAdd, MdRemove } from 'react-icons/md';
 import 'react-datetime/css/react-datetime.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -34,8 +36,8 @@ class MainPage extends React.Component {
                 {
                     dates: [
                         {
-                            startDate: new Date(),
-                            endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + 60)
+                            startDate: this.roundDate(new Date()),
+                            endDate: this.roundDate(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + 60))
                         }
                     ],
                     id: 0
@@ -48,7 +50,13 @@ class MainPage extends React.Component {
             joinRoom: false,
             sentData: false
         }
-        console.log(this.props.match.params.key);
+    }
+
+
+    roundDate = (date) => {
+        let coeff = 1000 * 60 * 15;     //15 is the round time parameter
+        let rounded = new Date(Math.round(date.getTime() / coeff) * coeff)
+        return rounded;
     }
 
     errorScreen = () => {
@@ -144,9 +152,14 @@ class MainPage extends React.Component {
                                 <Column className={dateCardClass}>
                                     <Column className="Datecardcol">
                                         <p className="Datetext">Start Date</p>
-                                        <div style = {{marginTop: 4}}>
+                                        <div style={{ marginTop: 4 }}>
                                             <DateTime
-                                                inputProps={{readOnly: true}}
+                                                timeConstraints={{
+                                                    minutes: {
+                                                        step: 15
+                                                    }
+                                                }}
+                                                inputProps={type === 'person' ? { disabled: true } : { readOnly: true }}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -162,9 +175,14 @@ class MainPage extends React.Component {
                                     </Column>
                                     <Column className="Datecardcol">
                                         <p className="Datetext">End Date</p>
-                                        <div style = {{marginTop: 4}}>
+                                        <div style={{ marginTop: 4 }}>
                                             <DateTime
-                                                inputProps={{readOnly: true}}
+                                                timeConstraints={{
+                                                    minutes: {
+                                                        step: 15
+                                                    }
+                                                }}
+                                                inputProps={type === 'person' ? { disabled: true } : { readOnly: true }}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -185,7 +203,12 @@ class MainPage extends React.Component {
                                         <p className="Datetext">Start Date:</p>
                                         <div>
                                             <DateTime
-                                                inputProps={{readOnly: true}}
+                                                timeConstraints={{
+                                                    minutes: {
+                                                        step: 15
+                                                    }
+                                                }}
+                                                inputProps={type === 'person' ? { disabled: true } : { readOnly: true }}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -203,7 +226,12 @@ class MainPage extends React.Component {
                                         <p className="Datetext">End Date: </p>
                                         <div>
                                             <DateTime
-                                                inputProps={{readOnly: true}}
+                                                timeConstraints={{
+                                                    minutes: {
+                                                        step: 15
+                                                    }
+                                                }}
+                                                inputProps={type === 'person' ? { disabled: true } : { readOnly: true }}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -398,6 +426,7 @@ class MainPage extends React.Component {
                 error: 'Please enter a name.',
                 attrs: {
                     placeholder: 'Name',
+                    autoComplete: 'off'
                 }
             }
         }
@@ -433,13 +462,11 @@ class MainPage extends React.Component {
                                 let resjson = await res.json();
                                 if (resjson !== null) {
                                     if (resjson.success === '1') {
-                                        ReactCopy('https://ibkmeetup.herokuapp.com/' /*'http://localhost:3000/'*/ + this.state.key);
+                                        ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
+                                        toast.info('Copied to clipboard');
                                         let data = { ...this.state.data };
                                         data.people = [];
                                         this.setState({ sent: true, data: data }, async () => {
-                                            toast('Copied to clipboard');
-                                            console.log('people at send form');
-                                            console.log(this.state.data.people)
                                             await this.fetchPeople(false);
                                         });
                                     }
@@ -468,15 +495,42 @@ class MainPage extends React.Component {
         );
     }
 
+    navbar = () => {
+        return (
+            <Navbar style={{ backgroundColor: 'rgb(240, 240, 255)' }}>
+                <Navbar.Brand style={{ fontSize: 24 }} >
+                    <img
+                        alt=""
+                        src={require("./logo.png")}
+                        width="30"
+                        height="30"
+                        style={{ marginRight: 6 }}
+                    />
+                    MeetUp
+                </Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link href="/">Home</Nav.Link>
+                    <Nav.Link onClick={() => {
+                        ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
+                        toast.info('Copied to clipboard');
+                    }}>Copy Link</Nav.Link>
+                    {/*<Nav.Link href="#features">Features</Nav.Link>
+                    <Nav.Link href="#pricing">Pricing</Nav.Link>*/}
+                </Nav>
+            </Navbar>
+        );
+    }
+
     render() {
         return (
             <div>
+                {this.navbar()}
                 {
                     this.state.error ?
                         this.errorScreen()
                         :
                         <div>
-                            <div className="justify-content-center" style={{ marginTop: 12 }}>
+                            <div className="justify-content-center" style={{ marginTop: 8 }}>
                                 <div className="Peopleinroom">
                                     <p className="Peopleinroomtext">People in the room: {this.state.data.persons.length}</p>
                                 </div>

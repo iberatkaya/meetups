@@ -5,11 +5,11 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { MdAdd, MdRemove } from 'react-icons/md';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import 'react-datetime/css/react-datetime.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactCopy from 'copy-to-clipboard';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Moment from 'moment';
 import t from 'tcomb-form'
 import { extendMoment } from 'moment-range';
@@ -33,8 +33,8 @@ class CreatePage extends React.Component {
                 {
                     dates: [
                         {
-                            startDate: new Date(),
-                            endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + 60)
+                            startDate: this.roundDate(new Date()),
+                            endDate: this.roundDate(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + 60))
                         }
                     ],
                     id: 0
@@ -82,6 +82,11 @@ class CreatePage extends React.Component {
         this.setState({ data: data });
     }
 
+    roundDate = (date) => {
+        let coeff = 1000 * 60 * 15;     //15 is the round time parameter
+        let rounded = new Date(Math.round(date.getTime() / coeff) * coeff)
+        return rounded;
+    }
 
     dateLists = (items) => {
         let dateCardClass = "Datecard"
@@ -99,9 +104,14 @@ class CreatePage extends React.Component {
                                 <Column className={dateCardClass}>
                                     <Column className="Datecardcol">
                                         <p className="Datetext">Start Date</p>
-                                        <div style = {{marginTop: 4}}>
+                                        <div style={{ marginTop: 4 }}>
                                             <DateTime
-                                                inputProps={{readOnly: true}}
+                                                timeConstraints={{
+                                                    minutes: {
+                                                      step: 15
+                                                    }
+                                                  }}
+                                                inputProps={{ readOnly: true }}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -111,9 +121,14 @@ class CreatePage extends React.Component {
                                     </Column>
                                     <Column className="Datecardcol">
                                         <p className="Datetext">End Date</p>
-                                        <div style = {{marginTop: 4}}>
+                                        <div style={{ marginTop: 4 }}>
                                             <DateTime
-                                                inputProps={{readOnly: true}}
+                                                timeConstraints={{
+                                                    minutes: {
+                                                      step: 15
+                                                    }
+                                                  }}
+                                                inputProps={{ readOnly: true }}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -129,7 +144,12 @@ class CreatePage extends React.Component {
                                         <p className="Datetext">Start Date:</p>
                                         <div>
                                             <DateTime
-                                                inputProps={{readOnly: true}}
+                                                timeConstraints={{
+                                                    minutes: {
+                                                      step: 15
+                                                    }
+                                                  }}
+                                                inputProps={{ readOnly: true }}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -141,7 +161,12 @@ class CreatePage extends React.Component {
                                         <p className="Datetext">End Date: </p>
                                         <div>
                                             <DateTime
-                                                inputProps={{readOnly: true}}
+                                                timeConstraints={{
+                                                    minutes: {
+                                                      step: 15
+                                                    }
+                                                  }}
+                                                inputProps={{ readOnly: true }}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMMM DD, YYYY"
@@ -196,10 +221,8 @@ class CreatePage extends React.Component {
                                     body: JSON.stringify({ name: name, dates: this.state.data.user.dates })
                                 });
                                 let resjson = await res.json();
-                                console.log(resjson);
                                 this.setState({ response: resjson, key: resjson.key }, () => {
-                                    ReactCopy('https://ibkmeetup.herokuapp.com/' + resjson.key)
-                                    alert('Copied to clipboard');
+//                                    ReactCopy('https://ibkmeetup.herokuapp.com/' + resjson.key)
                                     this.props.history.push('/' + resjson.key);
                                 })
                             }
@@ -215,7 +238,7 @@ class CreatePage extends React.Component {
             return (
                 <Column className="Card" style={{ paddingTop: 16 }}>
                     <p className="Availabledate">Select your available dates:</p>
-                    {this.dateLists(item.dates, 'user')}
+                    {this.dateLists(item.dates)}
                     <Row className="justify-content-center">
                         {this.state.data.user.dates.length !== 1 ?
                             <MdRemove
@@ -264,12 +287,37 @@ class CreatePage extends React.Component {
         });
     }
 
+
+    navbar = () => {
+        return (
+            <Navbar style = {{backgroundColor: 'rgb(240, 240, 255)'}}>
+                <Navbar.Brand style={{ fontSize: 24 }} >
+                    <img
+                        alt=""
+                        src={require("./logo.png")}
+                        width="30"
+                        height="30"
+                        style={{ marginRight: 6 }}
+                    />
+                    MeetUp
+                </Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link style = {{color: '#333', fontWeight: 'bold'}}>Home</Nav.Link>
+                    {/*<Nav.Link href="#features">Features</Nav.Link>
+                    <Nav.Link href="#pricing">Pricing</Nav.Link>*/}
+                </Nav>
+            </Navbar>
+        );
+    }
+
     render() {
         return (
-            <Container className="justify-content-center" style={{ marginTop: 24 }}>
-                {this.renderUser()}
-                <ToastContainer position="bottom-right" />
-            </Container>
+            <div>
+                {this.navbar()}
+                <Column>
+                    {this.renderUser()}
+                </Column>
+            </div>
         );
     }
 }

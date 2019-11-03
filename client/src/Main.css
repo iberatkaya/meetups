@@ -1,7 +1,7 @@
 
 
 body {
-    background-color: #f9f9ff;
+    background-color: #f6f6ff;
     line-height: 1.2;
     touch-action: manipulation;
 }
@@ -15,7 +15,7 @@ p {
     background-color: #eee;
     border-radius: 12px;
     align-items: center;
-    width: 16rem;
+    width: 15rem;
     margin-bottom: 8px;
     padding-bottom: 6px;
     padding-top: 6px;
@@ -23,9 +23,24 @@ p {
     margin-left: auto;
 }
 
+
 .Peopleinroomtext {
     font-size: 1.2rem;
     text-align: center;    
+}
+
+.Copytoclipboard{
+    text-align: center;
+    background-color: #eee;
+    border-radius: 12px;
+    align-items: center;
+    width: 10rem;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 1rem;
 }
 
 .Availabledate {
@@ -35,6 +50,7 @@ p {
 }
 
 .Card {
+    padding-top: 6px;
     background-color: rgb(255, 230, 230); 
     border-radius: 28px; 
     padding-bottom: 12px; 
@@ -42,9 +58,8 @@ p {
 }
 
 .Username {
-    padding-top: 4px;
     text-align: center; 
-    font-size: 1.9rem; 
+    font-size: 1.75rem; 
 }
 
 .Datecard {
