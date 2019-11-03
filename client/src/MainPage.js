@@ -311,8 +311,8 @@ class MainPage extends React.Component {
                                 }*/
                                 let date = max;
                                 dates.push({
-                                    startDate: new Date(date + 120000),
-                                    endDate: new Date(date + 3720000)
+                                    startDate: new Date(date + 900000),
+                                    endDate: new Date(date + 4500000)
                                 });
                                 data.user.dates = dates;
                                 this.setState({ data: data }, () => {
