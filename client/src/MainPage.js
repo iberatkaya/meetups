@@ -401,8 +401,8 @@ class MainPage extends React.Component {
             if (newel.occurance > 1 /*&& (max - min) / 10 < (newel.end - newel.start)*/)
                 newarr.push(newel);
         }
-        if (newarr.length > 0)
-            newarr[newarr.length - 1].end += 60000;
+        /*if (newarr.length > 0)    Fixes case where sometimes the last intersection's final minute is not included
+            newarr[newarr.length - 1].end += 60000;*/
         return newarr;
     }
 
