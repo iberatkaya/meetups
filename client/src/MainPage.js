@@ -404,7 +404,7 @@ class MainPage extends React.Component {
             /* console.log((max - min) / 10 +  ' < ' + (newel.end - newel.start))
              console.log((max - min) / 10 < (newel.end - newel.start))*/
             if (newel.occurance > 1 /*&& (max - min) / 10 < (newel.end - newel.start)*/){
-                newel.end += 60000;
+                newel.end += 55000;
                 newarr.push(newel);
             }
         }
