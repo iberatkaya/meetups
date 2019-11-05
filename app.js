@@ -44,10 +44,11 @@ app.use(cookieParser());
   app.post('/api', function (req, res, next) {
     var randomstr = randomstring.generate(24);
     var name = req.body.name;
-    var dates = req.body.dates;
+    var dates = req.body.dates
+    var roomtitle = req.body.roomtitle;
     console.log(req.body);
     db.serialize(function () {
-      db.run('INSERT INTO PEOPLE(key, name, dates) VALUES(?, ?, ?)', [randomstr, name, JSON.stringify(dates)], (res, err) => { console.log(res); });
+      db.run('INSERT INTO PEOPLE(key, name, dates, roomtitle) VALUES(?, ?, ?, ?)', [randomstr, name, JSON.stringify(dates), roomtitle], (res, err) => { console.log(res); });
     });
     res.json({ key: randomstr });
   });
@@ -57,7 +58,7 @@ app.use(cookieParser());
     console.log(req.params.key);
     db.serialize(function () {
       db.all('SELECT * FROM PEOPLE WHERE key = ?', [req.params.key], (err, rows) => {
-        //      console.log(typeof(res));
+        console.log(rows);
         res.json(rows);
       });
     });
@@ -66,11 +67,12 @@ app.use(cookieParser());
   app.post('/api/:key', function (req, res, next) {
     console.log(req.params.key);
     db.serialize(function () {
-      db.run('INSERT INTO PEOPLE(key, name, dates) VALUES(?, ?, ?)', [req.params.key, req.body.name, JSON.stringify(req.body.dates)], (result, err) => { console.log(result); 
+      db.run('INSERT INTO PEOPLE(key, name, dates, roomtitle) VALUES(?, ?, ?, ?)', [req.params.key, req.body.name, JSON.stringify(req.body.dates), req.body.roomtitle], (result, err) => { console.log(result); 
         res.json({success: "1"});     
       });
     });
   });
+
   // Handle React routing, return all requests to React app
   app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));

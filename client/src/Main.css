@@ -15,7 +15,7 @@ p {
     background-color: #eee;
     border-radius: 12px;
     align-items: center;
-    width: 15rem;
+    width: 18rem;
     margin-bottom: 8px;
     padding-bottom: 6px;
     padding-top: 6px;
@@ -25,8 +25,15 @@ p {
 
 
 .Peopleinroomtext {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     text-align: center;    
+    color: #444444;
+}
+
+.Roomtitle {
+    font-size: 1.65rem;
+    margin-bottom: 4px;
+    text-align: center;
 }
 
 .Copytoclipboard{
@@ -100,8 +107,8 @@ p {
     border-radius: 24px;
     padding-bottom: 18px;
     padding-top: 12px;
-    padding-right: 14px;
-    padding-left: 14px;
+    padding-right: 16px;
+    padding-left: 16px;
 }
 
 .Intersectiontext {
@@ -109,6 +116,7 @@ p {
     margin-bottom: 2px;
     text-align: left;
     font-size: 1rem; 
+    color: #444444;
 }
 
 .Intersectionhelptext {

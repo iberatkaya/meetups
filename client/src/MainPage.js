@@ -44,6 +44,7 @@ class MainPage extends React.Component {
                 },
             },
             key: this.props.match.params.key,
+            roomTitle: '',
             intersections: [],
             value: '',
             error: false,
@@ -61,8 +62,8 @@ class MainPage extends React.Component {
 
     errorScreen = () => {
         return (
-            <div>
-                <p>Sorry, empty room :(</p>
+            <div style={{ textAlign: 'center', marginTop: 12 }}>
+                <p style={{ fontSize: 24 }}>Sorry, empty room :(</p>
             </div>
         )
     }
@@ -77,7 +78,8 @@ class MainPage extends React.Component {
         });
         let resjson = await res.json();
         if (resjson.length === 0) {
-            this.setState({ error: true })
+            this.setState({ error: true });
+            return;
         }
         let persons = [];
         for (let i = 0; i < resjson.length; i++) {
@@ -88,9 +90,12 @@ class MainPage extends React.Component {
             }
             persons.push({ dates: newdates, id: i, name: resjson[i].name });
         }
+        console.log(resjson);
+        let roomTitle = resjson[0].roomtitle;
         let data = { ...this.state.data };
         data.persons = persons;
-        this.setState({ data: data }, () => {
+        this.setState({ data: data, roomTitle: roomTitle }, () => {
+            console.log(this.state.roomTitle);
             this.calculateAvailableTime();
         });
     }
@@ -162,7 +167,7 @@ class MainPage extends React.Component {
                                                 inputProps={type === 'person' ? { disabled: true } : { readOnly: true }}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
-                                                dateFormat="MMMM DD, YYYY"
+                                                dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => {
                                                     if (type === 'person') {
                                                         alert('Cannot be edited');
@@ -185,7 +190,7 @@ class MainPage extends React.Component {
                                                 inputProps={type === 'person' ? { disabled: true } : { readOnly: true }}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
-                                                dateFormat="MMMM DD, YYYY"
+                                                dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => {
                                                     if (type === 'person') {
                                                         alert('Cannot be edited');
@@ -211,7 +216,7 @@ class MainPage extends React.Component {
                                                 inputProps={type === 'person' ? { disabled: true } : { readOnly: true }}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
-                                                dateFormat="MMMM DD, YYYY"
+                                                dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => {
                                                     if (type === 'person') {
                                                         alert('Cannot be edited');
@@ -234,7 +239,7 @@ class MainPage extends React.Component {
                                                 inputProps={type === 'person' ? { disabled: true } : { readOnly: true }}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
-                                                dateFormat="MMMM DD, YYYY"
+                                                dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => {
                                                     if (type === 'person') {
                                                         alert('Cannot be edited');
@@ -398,11 +403,11 @@ class MainPage extends React.Component {
             }
             /* console.log((max - min) / 10 +  ' < ' + (newel.end - newel.start))
              console.log((max - min) / 10 < (newel.end - newel.start))*/
-            if (newel.occurance > 1 /*&& (max - min) / 10 < (newel.end - newel.start)*/)
+            if (newel.occurance > 1 /*&& (max - min) / 10 < (newel.end - newel.start)*/){
+                newel.end += 60000;
                 newarr.push(newel);
+            }
         }
-        /*if (newarr.length > 0)    Fixes case where sometimes the last intersection's final minute is not included
-            newarr[newarr.length - 1].end += 60000;*/
         return newarr;
     }
 
@@ -413,7 +418,7 @@ class MainPage extends React.Component {
             //    console.log(new Date(item.end));
             return (
                 <Column>
-                    <p className="Intersectiontext"><b>{item.occurance}</b> people are available at {moment(new Date(item.start)).format('MMMM DD, YYYY HH:mm')} - {moment(new Date(item.end)).format('MMMM DD, YYYY HH:mm')}</p>
+                    <p className="Intersectiontext"><b>{item.occurance}</b> people are available at {moment(new Date(item.start)).format('MMM DD, YYYY HH:mm')} - {moment(new Date(item.end)).format('MMM DD, YYYY HH:mm')}</p>
                 </Column>
             )
         });
@@ -434,7 +439,7 @@ class MainPage extends React.Component {
 
     form = () => {
         return (
-            <div style={isMobile ? { width: '98%' } : { width: '50%' }} className="Form" >
+            <div style={isMobile ? { width: '98%' } : { width: '30%' }} className="Form" >
                 <Form
                     value={this.state.value}
                     onChange={(val) => { this.setState({ value: val }); }}
@@ -457,9 +462,10 @@ class MainPage extends React.Component {
                                         'Content-Type': 'application/json'
                                     },
                                     method: 'POST',
-                                    body: JSON.stringify({ name: name, dates: this.state.data.user.dates })
+                                    body: JSON.stringify({ name: name, dates: this.state.data.user.dates, roomtitle: this.state.roomTitle })
                                 });
                                 let resjson = await res.json();
+                                console.log(resjson);
                                 if (resjson !== null) {
                                     if (resjson.success === '1') {
                                         ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
@@ -510,18 +516,24 @@ class MainPage extends React.Component {
                 </Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link onClick={() => {
-                        ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
-                        toast.info('Copied to clipboard');
-                    }}>Copy Link</Nav.Link>
+                    {
+                        this.state.error ?
+                            <div></div>
+                            :
+                            <Nav.Link onClick={() => {
+                                ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
+                                toast.info('Copied to clipboard');
+                            }}>Copy Link</Nav.Link>
+                    }
                     {/*<Nav.Link href="#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>*/}
+                        <Nav.Link href="#pricing">Pricing</Nav.Link>*/}
                 </Nav>
             </Navbar>
         );
     }
 
     render() {
+        console.log(this.state.roomTitle);
         return (
             <div>
                 {this.navbar()}
@@ -532,6 +544,7 @@ class MainPage extends React.Component {
                         <div>
                             <div className="justify-content-center" style={{ marginTop: 8 }}>
                                 <div className="Peopleinroom">
+                                    <p className="Roomtitle">{this.state.roomTitle}</p>
                                     <p className="Peopleinroomtext">People in the room: {this.state.data.persons.length}</p>
                                 </div>
                                 <Column>

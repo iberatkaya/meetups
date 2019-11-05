@@ -23,6 +23,10 @@ const FormSchema = t.struct({
     name: t.String,         // a required string
 })
 
+const FormSchemaRoom = t.struct({
+    room: t.String,         // a required string
+})
+
 class CreatePage extends React.Component {
 
     constructor(props) {
@@ -43,6 +47,7 @@ class CreatePage extends React.Component {
             },
             intersections: [],
             value: '',
+            valueroom: '',
             response: {},
             sent: false,
             key: ''
@@ -92,7 +97,7 @@ class CreatePage extends React.Component {
         let dateCardClass = "Datecard"
         return (
             items.map((item, index) => {
-                if (index == items.length - 1)
+                if (index === items.length - 1)
                     dateCardClass = "Datecard"
                 else
                     dateCardClass = "Datecard Bottomborder"
@@ -108,13 +113,13 @@ class CreatePage extends React.Component {
                                             <DateTime
                                                 timeConstraints={{
                                                     minutes: {
-                                                      step: 15
+                                                        step: 15
                                                     }
-                                                  }}
+                                                }}
                                                 inputProps={{ readOnly: true }}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
-                                                dateFormat="MMMM DD, YYYY"
+                                                dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => { this.timeChange(date.toDate(), index, 'start'); }}
                                             />
                                         </div>
@@ -125,13 +130,13 @@ class CreatePage extends React.Component {
                                             <DateTime
                                                 timeConstraints={{
                                                     minutes: {
-                                                      step: 15
+                                                        step: 15
                                                     }
-                                                  }}
+                                                }}
                                                 inputProps={{ readOnly: true }}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
-                                                dateFormat="MMMM DD, YYYY"
+                                                dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => { this.timeChange(date.toDate(), index, 'end'); }}
                                             />
                                         </div>
@@ -146,13 +151,13 @@ class CreatePage extends React.Component {
                                             <DateTime
                                                 timeConstraints={{
                                                     minutes: {
-                                                      step: 15
+                                                        step: 15
                                                     }
-                                                  }}
+                                                }}
                                                 inputProps={{ readOnly: true }}
                                                 value={item.startDate}
                                                 timeFormat="HH:mm"
-                                                dateFormat="MMMM DD, YYYY"
+                                                dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => { this.timeChange(date.toDate(), index, 'start'); }}
                                             />
                                         </div>
@@ -163,13 +168,13 @@ class CreatePage extends React.Component {
                                             <DateTime
                                                 timeConstraints={{
                                                     minutes: {
-                                                      step: 15
+                                                        step: 15
                                                     }
-                                                  }}
+                                                }}
                                                 inputProps={{ readOnly: true }}
                                                 value={item.endDate}
                                                 timeFormat="HH:mm"
-                                                dateFormat="MMMM DD, YYYY"
+                                                dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => { this.timeChange(date.toDate(), index, 'end'); }}
                                             />
                                         </div>
@@ -196,9 +201,22 @@ class CreatePage extends React.Component {
         }
     }
 
+    optionsroom = {
+        fields: {
+            room: {
+                label: ' ',
+                error: 'Please enter a room title.',
+                attrs: {
+                    placeholder: 'Room Title',
+                    autoComplete: 'off'
+                }
+            }
+        }
+    }
+
     form = () => {
         return (
-            <Container style={isMobile ? { width: '98%' } : { width: '50%' }} className="Form" >
+            <Container style={isMobile ? { width: '98%' } : { width: '30%' }} className="Form" >
                 <Form
                     value={this.state.value}
                     onChange={(val) => { this.setState({ value: val }); }}
@@ -210,7 +228,9 @@ class CreatePage extends React.Component {
                         style={{ marginLeft: 'auto', marginRight: 'auto' }}
                         onClick={async () => {
                             const value = this.refs.form.getValue();
-                            if (value != null) {
+                            const valueroom = this.refs.formroom.getValue();
+                            console.log(valueroom);
+                            if (value != null && valueroom != null) {
                                 let name = value.name;
                                 let res = await fetch('/api', {
                                     headers: {
@@ -218,11 +238,11 @@ class CreatePage extends React.Component {
                                         'Content-Type': 'application/json'
                                     },
                                     method: 'POST',
-                                    body: JSON.stringify({ name: name, dates: this.state.data.user.dates })
+                                    body: JSON.stringify({ name: name, dates: this.state.data.user.dates, roomtitle: valueroom.room })
                                 });
                                 let resjson = await res.json();
                                 this.setState({ response: resjson, key: resjson.key }, () => {
-//                                    ReactCopy('https://ibkmeetup.herokuapp.com/' + resjson.key)
+                                    //                                    ReactCopy('https://ibkmeetup.herokuapp.com/' + resjson.key)
                                     this.props.history.push('/' + resjson.key);
                                 })
                             }
@@ -290,7 +310,7 @@ class CreatePage extends React.Component {
 
     navbar = () => {
         return (
-            <Navbar style = {{backgroundColor: 'rgb(240, 240, 255)'}}>
+            <Navbar style={{ backgroundColor: 'rgb(240, 240, 255)' }}>
                 <Navbar.Brand style={{ fontSize: 24 }} >
                     <img
                         alt=""
@@ -302,7 +322,7 @@ class CreatePage extends React.Component {
                     MeetUp
                 </Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link style = {{color: '#333', fontWeight: 'bold'}}>Home</Nav.Link>
+                    <Nav.Link style={{ color: '#333', fontWeight: 'bold' }}>Home</Nav.Link>
                     {/*<Nav.Link href="#features">Features</Nav.Link>
                     <Nav.Link href="#pricing">Pricing</Nav.Link>*/}
                 </Nav>
@@ -315,6 +335,16 @@ class CreatePage extends React.Component {
             <div>
                 {this.navbar()}
                 <Column>
+                    <div>
+                        <Container style={isMobile ? { width: '98%' } : { width: '30%' }} className="Form" >
+                            <Form
+                                value={this.state.valueroom}
+                                onChange={(valroom) => { this.setState({ valueroom: valroom }); }}
+                                ref="formroom"
+                                options={this.optionsroom}
+                                type={FormSchemaRoom} />
+                        </Container>
+                    </div>
                     {this.renderUser()}
                 </Column>
             </div>
