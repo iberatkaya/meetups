@@ -253,8 +253,8 @@ class MainPage extends React.Component {
         let items = [this.state.data.user];
         return items.map((item, index) => {
             return (
-                <Column className="Card" style={{ paddingTop: 16, marginTop: 6, backgroundColor: 'rgb(240, 240, 255)' }}>
-                    <p className="Availabledate">Select available dates!</p>
+                <Column className="Usercard" style={{ paddingTop: 16, marginTop: 6 }}>
+                    <p className="Availabledate">Select your available dates:</p>
                     {this.dateLists(item.dates, 'user')}
                     <Row className="justify-content-center">
                         {this.state.data.user.dates.length !== 1 ?
@@ -477,7 +477,7 @@ class MainPage extends React.Component {
     joinRoom = () => {
         return (
             <div
-                className="Card" style={{ paddingTop: 16, marginTop: 6, backgroundColor: 'rgb(240, 240, 255)', textAlign: 'center' }}
+                className="Usercard" style={{ paddingTop: 16, marginTop: 6, textAlign: 'center' }}
             >
                 <Button
                     className="Joinroombutton"
@@ -538,7 +538,18 @@ class MainPage extends React.Component {
                                     <p className="Peopleinroomtext">People in the room: {this.state.data.persons.length}</p>
                                 </div>
                                 <Column>
-                                    {this.renderPeople()}
+                                    {
+                                        this.state.sent ?
+                                            <div></div>
+                                            :
+                                            <div>
+                                                {!this.state.joinRoom ?
+                                                    this.joinRoom()
+                                                    :
+                                                    this.renderUser()
+                                                }
+                                            </div>
+                                    }
                                     {
                                         this.state.intersections.length > 0
                                             ?
@@ -549,29 +560,7 @@ class MainPage extends React.Component {
                                             :
                                             <div></div>
                                     }
-                                    {
-                                        this.state.sent ?
-                                            <div></div>
-                                            :
-                                            <div>
-                                                {!this.state.joinRoom ?
-                                                    <div></div>
-                                                    :
-                                                    this.renderUser()
-                                                }
-                                            </div>
-                                    }
-                                    {
-                                        this.state.sent ?
-                                            <div></div>
-                                            : <div>
-                                                {!this.state.joinRoom ?
-                                                    this.joinRoom()
-                                                    :
-                                                    <div></div>
-                                                }
-                                            </div>
-                                    }
+                                    {this.renderPeople()}
                                     <ToastContainer position="bottom-right" />
                                 </Column>
                             </div>

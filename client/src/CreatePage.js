@@ -248,7 +248,7 @@ class CreatePage extends React.Component {
         let items = [this.state.data.user];
         return items.map((item, index) => {
             return (
-                <Column className="Card" style={{ paddingTop: 16 }}>
+                <Column className="Usercard" style={{ paddingTop: 16 }}>
                     <p className="Availabledate">Select your available dates:</p>
                     {this.dateLists(item.dates)}
                     <Row className="justify-content-center">

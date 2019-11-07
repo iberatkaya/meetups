@@ -56,9 +56,17 @@ p {
     font-size: 1.1rem; 
 }
 
+.Usercard {
+    padding-top: 6px;
+    background-color: rgb(225, 240, 255);
+    border-radius: 28px; 
+    padding-bottom: 12px; 
+    margin-bottom: 6px;
+}
+
 .Card {
     padding-top: 6px;
-    background-color: rgb(255, 230, 230); 
+    background-color: rgb(245, 220, 220); 
     border-radius: 28px; 
     padding-bottom: 12px; 
     margin-bottom: 6px;
@@ -103,8 +111,9 @@ p {
 }
 
 .Intersectionlist {
-    background-color: rgb(230, 255, 230);
+    background-color: rgb(220, 245, 220);
     border-radius: 24px;
+    margin-bottom: 6px;
     padding-bottom: 18px;
     padding-top: 12px;
     padding-right: 16px;
@@ -116,7 +125,7 @@ p {
     margin-bottom: 2px;
     text-align: left;
     font-size: 1rem; 
-    color: #444444;
+    color: #222;
 }
 
 .Intersectionhelptext {
