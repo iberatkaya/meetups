@@ -343,7 +343,7 @@ class CreatePage extends React.Component {
                 <a 
                     target="_blank"
                     href="https://play.google.com/store/apps/details?id=com.kaya.meetupapp"
-                    style={{position: 'fixed', zindex:100, bottom: 0, right: 0, width: isMobile ? 100 : 150, height: isMobile ? 38 : 58}}>
+                    style={{position: 'fixed', zindex: 100, bottom: 0, right: 0, width: isMobile ? 100 : 150, height: isMobile ? 38 : 58}}>
                     <Image
                         fluid
                         src={require('./playstore.png')}
