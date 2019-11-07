@@ -3,6 +3,7 @@ import DateTime from 'react-datetime';
 import Column from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import { MdAdd, MdRemove } from 'react-icons/md';
 import Navbar from 'react-bootstrap/Navbar';
@@ -339,6 +340,15 @@ class CreatePage extends React.Component {
                     </div>
                     {this.renderUser()}
                 </Column>
+                <a 
+                    target="_blank"
+                    href="https://play.google.com/store/apps/details?id=com.kaya.meetupapp"
+                    style={{position: 'absolute',  bottom: 0, right: 0, width: isMobile ? 100 : 150, height: isMobile ? 38 : 58}}>
+                    <Image
+                        fluid
+                        src={require('./playstore.png')}
+                    />
+                </a>
             </div>
         );
     }
