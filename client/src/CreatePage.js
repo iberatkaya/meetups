@@ -3,7 +3,6 @@ import DateTime from 'react-datetime';
 import Column from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import AdSense from 'react-adsense';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import { MdAdd, MdRemove } from 'react-icons/md';
@@ -350,12 +349,6 @@ class CreatePage extends React.Component {
                         src={require('./playstore.png')}
                     />
                 </a>
-                <AdSense.Google
-                    client='ca-pub-7292810486004926'
-                    slot='7806394673'
-                    style={{ width: 500, height: 300, float: 'left' }}
-                    format=''
-                    />
             </div>
         );
     }
