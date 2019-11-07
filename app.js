@@ -42,7 +42,10 @@ app.use(cookieParser());
   //app.use(express.static(path.join(__dirname, 'client/build')));
   app.use(express.static(path.join(__dirname, 'client/build')));
   app.post('/api', function (req, res, next) {
-    var randomstr = randomstring.generate(24);
+    var randomstr = randomstring.generate({
+      length: 32,
+      charset: 'alphanumeric'
+    });
     var name = req.body.name;
     var dates = req.body.dates
     var roomtitle = req.body.roomtitle;

@@ -11,42 +11,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     console.error(err.message)
     throw err
   } else {
-    console.log('Connected to the SQLite database.')
-    db.run('SELECT * FROM PEOPLE', [], (res, err) => { console.log(res); });
   }
 }
 );
 
-
-router.post('/', function (req, res, next) {
-  var randomstr = randomstring.generate(24);
-  var name = req.body.name;
-  var dates = req.body.dates;
-  console.log(req.body);
-  db.serialize(function () {
-    db.run('INSERT INTO PEOPLE(key, name, dates) VALUES(?, ?, ?)', [randomstr, name, JSON.stringify(dates)], (res, err) => { console.log(res); });
-  });
-  res.json({ key: randomstr });
-});
-
-/* GET home page. */
-router.get('/:key', function (req, res, next) {
-  console.log(req.params.key);
-  db.serialize(function () {
-    db.all('SELECT * FROM PEOPLE WHERE key = ?', [req.params.key], (err, rows) => {
-      //      console.log(typeof(res));
-      res.json(rows);
-    });
-  });
-});
-
-router.post('/:key', function (req, res, next) {
-  console.log(req.params.key);
-  db.serialize(function () {
-    db.run('INSERT INTO PEOPLE(key, name, dates) VALUES(?, ?, ?)', [req.params.key, req.body.name, JSON.stringify(req.body.dates)], (result, err) => { console.log(result); 
-      res.json({success: "1"});     
-    });
-  });
-});
 
 module.exports = router;
