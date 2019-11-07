@@ -64,14 +64,6 @@ class CreatePage extends React.Component {
                 return;
             }
         }
-        for (let a = 0; a < objarr.length; a++) {       //Check for user
-            if (index === a)
-                continue;
-            if (date.getTime() >= objarr[a].startDate.getTime() && date.getTime() <= objarr[a].endDate.getTime()) {
-                alert('Same date cannot be selected');
-                return;
-            }
-        }
         if (type === 'start') {
             objarr[index].startDate = date;
             objarr[index].endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 1, date.getMinutes());

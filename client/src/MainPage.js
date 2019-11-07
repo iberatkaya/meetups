@@ -114,14 +114,6 @@ class MainPage extends React.Component {
                 return;
             }
         }
-        for (let a = 0; a < objarr.length; a++) {       //Check for user
-            if (index === a)
-                continue;
-            if (date.getTime() >= objarr[a].startDate.getTime() && date.getTime() <= objarr[a].endDate.getTime()) {
-                alert('Same date cannot be selected');
-                return;
-            }
-        }
         if (type === 'start') {
             objarr[index].startDate = date;
             objarr[index].endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 1, date.getMinutes());
@@ -169,11 +161,7 @@ class MainPage extends React.Component {
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => {
-                                                    if (type === 'person') {
-                                                        alert('Cannot be edited');
-                                                    }
-                                                    else
-                                                        this.timeChange(date.toDate(), index, 'start');
+                                                    this.timeChange(date.toDate(), index, 'start');
                                                 }}
                                             />
                                         </div>
@@ -192,11 +180,7 @@ class MainPage extends React.Component {
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => {
-                                                    if (type === 'person') {
-                                                        alert('Cannot be edited');
-                                                    }
-                                                    else
-                                                        this.timeChange(date.toDate(), index, 'end');
+                                                    this.timeChange(date.toDate(), index, 'end');
                                                 }}
                                             />
                                         </div>
@@ -218,11 +202,7 @@ class MainPage extends React.Component {
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => {
-                                                    if (type === 'person') {
-                                                        alert('Cannot be edited');
-                                                    }
-                                                    else
-                                                        this.timeChange(date.toDate(), index, 'start');
+                                                    this.timeChange(date.toDate(), index, 'start');
                                                 }}
                                             />
                                         </div>
@@ -241,11 +221,7 @@ class MainPage extends React.Component {
                                                 timeFormat="HH:mm"
                                                 dateFormat="MMM DD, YYYY"
                                                 onChange={(date) => {
-                                                    if (type === 'person') {
-                                                        alert('Cannot be edited');
-                                                    }
-                                                    else
-                                                        this.timeChange(date.toDate(), index, 'end');
+                                                    this.timeChange(date.toDate(), index, 'end');
                                                 }}
                                             />
                                         </div>
@@ -403,12 +379,26 @@ class MainPage extends React.Component {
             }
             /* console.log((max - min) / 10 +  ' < ' + (newel.end - newel.start))
              console.log((max - min) / 10 < (newel.end - newel.start))*/
-            if (newel.occurance > 1 /*&& (max - min) / 10 < (newel.end - newel.start)*/){
-                newel.end += 55000;
+            if (newel.occurance > 1 /*&& (max - min) / 10 < (newel.end - newel.start)*/) {
                 newarr.push(newel);
             }
         }
-        return newarr;
+        for (let i = 0; i < newarr.length; i++) {
+            for (let j = 0; j < newarr[i].personid.length - 1; j++) {
+                let person1 = newarr[i].personid[j];
+                for (let k = j + 1; k < newarr[i].personid.length; k++) {
+                    let person2 = newarr[i].personid[k];
+                    if (person1 === person2)
+                        newarr[i].occurance--;
+                }
+            }
+        }
+        let finalarray = [];
+        for (let i = 0; i < newarr.length; i++) {
+            if (newarr[i].occurance > 1)
+                finalarray.push(newarr[i]);
+        }
+        return finalarray;
     }
 
     intersectionsList = () => {
@@ -418,7 +408,7 @@ class MainPage extends React.Component {
             //    console.log(new Date(item.end));
             return (
                 <Column>
-                    <p className="Intersectiontext"><b>{item.occurance}</b> people are available at {moment(new Date(item.start)).format('MMM DD, YYYY HH:mm')} - {moment(new Date(item.end)).format('MMM DD, YYYY HH:mm')}</p>
+                    <p className="Intersectiontext"><b>{item.occurance}</b> people are available at {moment(this.roundDate(new Date(item.start))).format('MMM DD, YYYY HH:mm')} - {moment(this.roundDate(new Date(item.end))).format('MMM DD, YYYY HH:mm')}</p>
                 </Column>
             )
         });
