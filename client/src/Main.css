@@ -139,3 +139,15 @@ p {
     margin-bottom: 16px;
     margin-top: 12px;
 }
+
+.Helptextcontainer{
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 16px;
+}
+
+.Helptext{
+    margin-bottom: 12px;
+    text-indent: 1.5rem;
+    font-size: 1.2rem;
+}

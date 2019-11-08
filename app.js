@@ -49,7 +49,7 @@ app.use(cookieParser());
     var name = req.body.name;
     var dates = req.body.dates
     var roomtitle = req.body.roomtitle;
-    console.log(req.body);
+    //console.log(req.body);
     db.serialize(function () {
       db.run('INSERT INTO PEOPLE(key, name, dates, roomtitle) VALUES(?, ?, ?, ?)', [randomstr, name, JSON.stringify(dates), roomtitle], (res, err) => { console.log(res); });
     });
@@ -61,14 +61,14 @@ app.use(cookieParser());
     console.log(req.params.key);
     db.serialize(function () {
       db.all('SELECT * FROM PEOPLE WHERE key = ?', [req.params.key], (err, rows) => {
-        console.log(rows);
+      //  console.log(rows);
         res.json(rows);
       });
     });
   });
 
   app.post('/api/:key', function (req, res, next) {
-    console.log(req.params.key);
+    //console.log(req.params.key);
     db.serialize(function () {
       db.run('INSERT INTO PEOPLE(key, name, dates, roomtitle) VALUES(?, ?, ?, ?)', [req.params.key, req.body.name, JSON.stringify(req.body.dates), req.body.roomtitle], (result, err) => { console.log(result); 
         res.json({success: "1"});     

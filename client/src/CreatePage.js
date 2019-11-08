@@ -304,18 +304,19 @@ class CreatePage extends React.Component {
     navbar = () => {
         return (
             <Navbar style={{ backgroundColor: 'rgb(240, 240, 255)' }}>
-                <Navbar.Brand style={{ fontSize: 24 }} >
+                <Navbar.Brand style={{ fontSize: 20, fontWeight: 'bold' }} >
                     <img
                         alt=""
                         src={require("./logo.png")}
                         width="30"
                         height="30"
-                        style={{ marginRight: 6 }}
+                        style={{ marginRight: 10 }}
                     />
                     MeetUps
                 </Navbar.Brand>
-                <Nav className="mr-auto">
+                <Nav className="mr-auto" style={{fontSize: 15}}>
                     <Nav.Link style={{ color: '#333', fontWeight: 'bold' }}>Home</Nav.Link>
+                    <Nav.Link href="/help" style={{ color: '#888' }}>Help</Nav.Link>
                     {/*<Nav.Link href="#features">Features</Nav.Link>
                     <Nav.Link href="#pricing">Pricing</Nav.Link>*/}
                 </Nav>

@@ -495,29 +495,28 @@ class MainPage extends React.Component {
     navbar = () => {
         return (
             <Navbar style={{ backgroundColor: 'rgb(240, 240, 255)' }}>
-                <Navbar.Brand style={{ fontSize: 24 }} >
+                <Navbar.Brand style={{ fontSize: 20, fontWeight: 'bold' }} >
                     <img
                         alt=""
                         src={require("./logo.png")}
                         width="30"
                         height="30"
-                        style={{ marginRight: 6 }}
+                        style={{ marginRight: 10 }}
                     />
                     MeetUps
                 </Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link href="/">Home</Nav.Link>
+                <Nav className="mr-auto" style={{fontSize: 15}}>
+                    <Nav.Link href="/" style={{ color: '#888' }}>Home</Nav.Link>
                     {
                         this.state.error ?
                             <div></div>
                             :
-                            <Nav.Link onClick={() => {
+                            <Nav.Link  style={{ color: '#888' }} onClick={() => {
                                 ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
                                 toast.info('Copied to clipboard');
                             }}>Copy Link</Nav.Link>
                     }
-                    {/*<Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>*/}
+                    <Nav.Link href="/help" style={{ color: '#888' }}>Help</Nav.Link>
                 </Nav>
             </Navbar>
         );
