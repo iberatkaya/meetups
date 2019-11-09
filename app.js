@@ -17,7 +17,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     throw err
   } else {
     console.log('Connected to the SQLite database.')
-    db.run('SELECT * FROM PEOPLE', [], (res, err) => { console.log(res); });
+    db.serialize(function () {
+      db.run('CREATE TABLE IF NOT EXISTS PEOPLE (id INTEGER PRIMARY KEY AUTOINCREMENT, key NUMBER, name NUMBER, dates INTEGER, roomtitle TEXT)', [], (res, err) => { console.log(res); });
+    })
   }
 }
 );
