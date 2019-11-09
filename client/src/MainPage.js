@@ -454,7 +454,7 @@ class MainPage extends React.Component {
                                 let resjson = await res.json();
                                 if (resjson !== null) {
                                     if (resjson.success === '1') {
-                                        ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
+                                        ReactCopy('https://meetupswithfriends.com/' + this.state.key);
                                         toast.info('Copied to clipboard');
                                         let data = { ...this.state.data };
                                         data.people = [];
@@ -507,7 +507,7 @@ class MainPage extends React.Component {
                             <div></div>
                             :
                             <Nav.Link  style={{ color: '#888' }} onClick={() => {
-                                ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
+                                ReactCopy('https://meetupswithfriends.com/' + this.state.key);
                                 toast.info('Copied to clipboard');
                             }}>Copy Link</Nav.Link>
                     }

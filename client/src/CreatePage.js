@@ -233,7 +233,6 @@ class CreatePage extends React.Component {
                                 });
                                 let resjson = await res.json();
                                 this.setState({ response: resjson, key: resjson.key }, () => {
-                                    //                                    ReactCopy('https://ibkmeetup.herokuapp.com/' + resjson.key)
                                     this.props.history.push('/' + resjson.key);
                                 })
                             }
