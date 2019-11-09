@@ -91,12 +91,10 @@ class MainPage extends React.Component {
             }
             persons.push({ dates: newdates, id: i, name: resjson[i].name });
         }
-        console.log(resjson);
         let roomTitle = resjson[0].roomtitle;
         let data = { ...this.state.data };
         data.persons = persons;
         this.setState({ data: data, roomTitle: roomTitle }, () => {
-            console.log(this.state.roomTitle);
             this.calculateAvailableTime();
         });
     }
@@ -108,7 +106,6 @@ class MainPage extends React.Component {
     timeChange = (date, index, type) => {
         let data = this.state.data;
         let objarr = data.user.dates;
-        console.log(objarr);
         if (type === 'end') {
             if (objarr[index].startDate.getTime() >= date.getTime()) {
                 alert('End Date cannot be smaller than Start Date');
@@ -127,7 +124,6 @@ class MainPage extends React.Component {
             objarr[index].endDate = date;
         }
         data.user.dates = objarr;
-        console.log(data.user.dates);
         this.setState({ data: data }, () => {
             this.calculateAvailableTime();
         });
@@ -456,7 +452,6 @@ class MainPage extends React.Component {
                                     body: JSON.stringify({ name: name, dates: this.state.data.user.dates, roomtitle: this.state.roomTitle })
                                 });
                                 let resjson = await res.json();
-                                console.log(resjson);
                                 if (resjson !== null) {
                                     if (resjson.success === '1') {
                                         ReactCopy('https://ibkmeetup.herokuapp.com/' + this.state.key);
@@ -523,7 +518,6 @@ class MainPage extends React.Component {
     }
 
     render() {
-        console.log(this.state.roomTitle);
         return (
             <div>
                 {this.navbar()}

@@ -60,7 +60,7 @@ app.use(cookieParser());
 
   /* GET home page. */
   app.get('/api/:key', function (req, res, next) {
-    console.log(req.params.key);
+  //  console.log(req.params.key);
     db.serialize(function () {
       db.all('SELECT * FROM PEOPLE WHERE key = ?', [req.params.key], (err, rows) => {
       //  console.log(rows);

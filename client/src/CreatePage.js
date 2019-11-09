@@ -58,7 +58,6 @@ class CreatePage extends React.Component {
     timeChange = (date, index, type) => {
         let data = this.state.data;
         let objarr = data.user.dates;
-        console.log(objarr);
         if (type === 'end') {
             if (objarr[index].startDate.getTime() >= date.getTime()) {
                 alert('End Date cannot be smaller than Start Date');
@@ -222,7 +221,6 @@ class CreatePage extends React.Component {
                         onClick={async () => {
                             const value = this.refs.form.getValue();
                             const valueroom = this.refs.formroom.getValue();
-                            console.log(valueroom);
                             if (value != null && valueroom != null) {
                                 let name = value.name;
                                 let res = await fetch('/api', {
