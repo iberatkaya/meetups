@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3').verbose()
 var randomstring = require('randomstring');
 
-const DBSOURCE = "db.sqlite"
+const DBSOURCE = "../db.sqlite"
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
   if (err) {
