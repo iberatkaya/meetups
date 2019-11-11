@@ -24,18 +24,20 @@ class HelpPage extends React.Component {
         return (
             <Navbar style={{ backgroundColor: 'rgb(240, 240, 255)' }}>
                 <Navbar.Brand style={{ fontSize: 20, fontWeight: 'bold' }} >
-                    <img
-                        alt=""
-                        src={require("./logo.png")}
-                        width="30"
-                        height="30"
-                        style={{ marginRight: 10 }}
-                    />
-                    MeetUps
+                    <a href="/" style={{ fontSize: 20, fontWeight: 'bold', textDecoration: 'none', color: 'black' }} >
+                        <img
+                            alt=""
+                            src={require("./logo.png")}
+                            width="30"
+                            height="30"
+                            style={{ marginRight: 10 }}
+                        />
+                        MeetUps
+                    </a>
                 </Navbar.Brand>
-                <Nav className="mr-auto" style={{fontSize: 15}}>
+                <Nav className="mr-auto" style={{ fontSize: 15 }}>
                     <Nav.Link href="/" style={{ color: '#888' }}>Home</Nav.Link>
-                    <Nav.Link  style={{ color: '#333', fontWeight: 'bold' }}>Help</Nav.Link>
+                    <Nav.Link style={{ color: '#333', fontWeight: 'bold' }}>Help</Nav.Link>
                 </Nav>
             </Navbar>
         );
@@ -47,12 +49,12 @@ class HelpPage extends React.Component {
                 {this.navbar()}
                 <div className="Helptextcontainer">
                     <p className="Helptext">Welcome to MeetUps. MeetUps is a group meetup organizer. Select your available dates and times, and create or join a room. Once you create a room, you can send the link to your friends to let them join your room. MeetUps will then show you the available time slots for your next meetup!</p>
-                    <p className="Helptext">Feel free to download the <a target="_blank" href="https://play.google.com/store/apps/details?id=com.kaya.meetupapp">Android App</a> for a better experience. The iOS App is under development</p>
+                    <p className="Helptext">Feel free to download the <a target="_blank" href="https://play.google.com/store/apps/details?id=com.kaya.meetupapp">Android App</a> for a better experience. The iOS App is currently under development.</p>
                 </div>
-                <a 
+                <a
                     target="_blank"
                     href="https://play.google.com/store/apps/details?id=com.kaya.meetupapp"
-                    style={{position: 'fixed', zindex: 100, bottom: 0, right: 0, width: isMobile ? 100 : 150, height: isMobile ? 38 : 58}}>
+                    style={{ position: 'fixed', zindex: 100, bottom: 0, right: 0, width: isMobile ? 100 : 150, height: isMobile ? 38 : 58 }}>
                     <Image
                         fluid
                         src={require('./playstore.png')}

@@ -301,15 +301,17 @@ class CreatePage extends React.Component {
     navbar = () => {
         return (
             <Navbar style={{ backgroundColor: 'rgb(240, 240, 255)' }}>
-                <Navbar.Brand style={{ fontSize: 20, fontWeight: 'bold' }} >
-                    <img
-                        alt=""
-                        src={require("./logo.png")}
-                        width="30"
-                        height="30"
-                        style={{ marginRight: 10 }}
-                    />
-                    MeetUps
+                <Navbar.Brand>
+                    <a href="/" style={{ fontSize: 20, fontWeight: 'bold', textDecoration: 'none', color: 'black' }} >
+                        <img
+                            alt=""
+                            src={require("./logo.png")}
+                            width="30"
+                            height="30"
+                            style={{ marginRight: 10 }}
+                        />
+                        MeetUps
+                    </a>
                 </Navbar.Brand>
                 <Nav className="mr-auto" style={{fontSize: 15}}>
                     <Nav.Link style={{ color: '#333', fontWeight: 'bold' }}>Home</Nav.Link>
