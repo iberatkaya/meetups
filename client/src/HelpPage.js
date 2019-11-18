@@ -51,6 +51,60 @@ class HelpPage extends React.Component {
                     <p className="Helptext">Welcome to MeetUps. MeetUps is a group meetup organizer. Select your available dates and times, and create or join a room. Once you create a room, you can send the link to your friends to let them join your room. MeetUps will then show you the available time slots for your next meetup!</p>
                     <p className="Helptext">Feel free to download the <a target="_blank" href="https://play.google.com/store/apps/details?id=com.kaya.meetupapp">Android App</a> for a better experience. The iOS App is currently under development.</p>
                 </div>
+                <div className="Helptextcontainer">
+                    <p className="Helptext">Help: </p>
+                </div>
+                { isMobile ?
+                    <Column>
+                    <img
+                        alt=""
+                        src={require("./help1.png")}
+                        width="98%"
+                        height="60%"
+                        style={{marginBottom: '4px'}}
+                    />
+                    <img
+                        alt=""
+                        src={require("./help2.png")}
+                        width="98%"
+                        height="60%"
+                        style={{marginBottom: '4px'}}
+                    />
+                    <img
+                        alt=""
+                        src={require("./help1.png")}
+                        width="98%"
+                        height="60%"
+                        style={{marginBottom: '8px'}}
+                    />
+                    </Column>
+                :
+                    <>
+                        <div style = {{flexDirection: 'row', textAlign: 'center', marginBottom: '4px'}}>
+                            <img
+                                alt=""
+                                src={require("./help1.png")}
+                                width="49%"
+                                height="60%"
+                                style={{marginRight: '4px'}}
+                            />
+                            <img
+                                alt=""
+                                src={require("./help2.png")}
+                                width="49%"
+                                height="60%"
+                            />
+                        </div>
+                        <div style={{textAlign: 'center'}}>
+                            <img
+                                alt=""
+                                src={require("./help1.png")}
+                                width="49%"
+                                height="60%"
+                            />
+                        </div>
+                    </>
+                }
                 <a
                     target="_blank"
                     href="https://play.google.com/store/apps/details?id=com.kaya.meetupapp"

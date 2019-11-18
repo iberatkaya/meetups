@@ -554,7 +554,16 @@ class MainPage extends React.Component {
                                                 {this.intersectionsList()}
                                             </div>
                                             :
-                                            <div></div>
+                                            <div>
+                                                {
+                                                    this.state.data.persons.length > 1 ?
+                                                    <div className="Intersectionlist">
+                                                        <p>There are no intersections.</p>
+                                                    </div>
+                                                    :
+                                                    <div></div>
+                                                }
+                                            </div>
                                     }
                                     {this.renderPeople()}
                                     <ToastContainer position="bottom-right" />
