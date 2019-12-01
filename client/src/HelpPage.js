@@ -72,7 +72,7 @@ class HelpPage extends React.Component {
                     />
                     <img
                         alt=""
-                        src={require("./help1.png")}
+                        src={require("./help3.png")}
                         width="98%"
                         height="60%"
                         style={{marginBottom: '8px'}}
@@ -98,7 +98,7 @@ class HelpPage extends React.Component {
                         <div style={{textAlign: 'center'}}>
                             <img
                                 alt=""
-                                src={require("./help1.png")}
+                                src={require("./help3.png")}
                                 width="49%"
                                 height="60%"
                             />
