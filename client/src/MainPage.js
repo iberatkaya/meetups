@@ -403,7 +403,8 @@ class MainPage extends React.Component {
         return intersections.map((item, index) => {
             let people = "";
             for(let a=0; a<item.personid.length; a++){
-                people += this.state.data.persons[a].name;  
+                let b = item.personid[a];
+                people += this.state.data.persons[b].name;  
                 people += a != item.personid.length-1 ?  ", " : "";
             }
             return (
