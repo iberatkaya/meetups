@@ -399,13 +399,16 @@ class MainPage extends React.Component {
     }
 
     intersectionsList = () => {
-        let intersections = this.state.intersections;
+        let intersections = this.state.intersections.sort((a, b) => (b.occurance-a.occurance));
         return intersections.map((item, index) => {
-            //    console.log(new Date(item.start));
-            //    console.log(new Date(item.end));
+            let people = "";
+            for(let a=0; a<item.personid.length; a++){
+                people += this.state.data.persons[a].name;  
+                people += a != item.personid.length-1 ?  ", " : "";
+            }
             return (
                 <Column>
-                    <p className="Intersectiontext"><b>{item.occurance}</b> people are available at {moment(this.roundDate(new Date(item.start))).format('MMM DD, YYYY HH:mm')} - {moment(this.roundDate(new Date(item.end))).format('MMM DD, YYYY HH:mm')}</p>
+                    <p className="Intersectiontext"><b>{item.occurance}</b> people ({people}) are available at {moment(this.roundDate(new Date(item.start))).format('MMM DD, YYYY HH:mm')} - {moment(this.roundDate(new Date(item.end))).format('MMM DD, YYYY HH:mm')}</p>
                 </Column>
             )
         });
