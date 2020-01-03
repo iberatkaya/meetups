@@ -2,3 +2,4 @@ node_modules
 db.sqlite.sqbpro
 client/meetup/node_modules
 db.sqlite
+client/build
