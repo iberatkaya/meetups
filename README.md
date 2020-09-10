@@ -3,9 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> MeetUps is a group meetup organizer. Select your available dates and times, and create or join a room. Once you create a room, you can send the link to your friends to let them join your room. MeetUps will then show you the available time slots for your next meetup!
-
-### 🏠 [Homepage](https://meetupswithfriends.com/)
+> MeetUps is a group meetup organizer. Select your available dates and times, and create or join a room. Once you create a room, you can send the link to your friends to let them join your room. MeetUps will then show you the available time slots for your next meetup! Currently discontinued.
 
 ## Install
 
